@@ -11,7 +11,7 @@ fn linear_regression(x: &Array2<f64>, y: &Array1<f64>) -> Result<Array1<f64>, Bo
     let xtx = x.t().dot(x);
     let xtx_inv = lin_alg_operations::invert_2x2(&xtx)?;
     let xty = x.t().dot(y);
-    let beta = xtx_inv.dot(&xty)
+    let beta = xtx_inv.dot(&xty);
     Ok(beta)
 }
 
