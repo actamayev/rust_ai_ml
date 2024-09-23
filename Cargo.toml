@@ -1,5 +1,5 @@
 [workspace]
 members = [
-    "linear_regression",
+    # "linear_regression",
     # Add more subfolders here
 ]
