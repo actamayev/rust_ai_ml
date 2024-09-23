@@ -15,10 +15,6 @@ fn linear_regression(x: &Array2<f64>, y: &Array1<f64>) -> Result<Array1<f64>, Bo
     Ok(beta)
 }
 
-fn predict(x: &Array2<f64>, beta: &Array1<f64>) -> Array1<f64> {
-    x.dot(beta)
-}
-
 fn main() -> Result<(), Box<dyn Error>> {
     let file_path = "data/Hours_of_Study_vs_Exam_Score_Dataset.csv";
 
@@ -30,7 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let beta = linear_regression(&x_train, &y_train)?;
 
     // Make predictions on the test set
-    let y_pred = predict(&x_test, &beta);
+    let y_pred = x_test.dot(&beta);
 
     // Evaluate the model using error metrics
     let mse = error_metrics::root_mean_squared_error(&y_test, &y_pred);
