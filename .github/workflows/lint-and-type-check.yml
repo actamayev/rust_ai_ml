@@ -19,8 +19,8 @@ jobs:
     - name: Install Clippy
       run: rustup component add clippy
 
-    - name: Run Clippy (Rust Linter)
-      run: cargo clippy --all-targets -- -D warnings
+    - name: Run Clippy (Rust Linter) on all targets
+      run: cargo clippy --all-targets --all-features -- -D warnings
 
   type-check:
     runs-on: ubuntu-latest
@@ -35,5 +35,5 @@ jobs:
         target: x86_64-unknown-linux-gnu
         profile: minimal
 
-    - name: Run Type Check (cargo check)
-      run: cargo check --all-targets
+    - name: Run Type Check (cargo check) on all targets
+      run: cargo check --all-targets --all-features
