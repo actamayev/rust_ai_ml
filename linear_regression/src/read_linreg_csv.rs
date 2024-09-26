@@ -4,7 +4,7 @@ use csv::ReaderBuilder;
 use ndarray::{Array2, Array1};
 
 // Function to read the CSV file and extract data as ndarray matrices
-pub fn read_csv(file_path: &str) -> Result<(Array2<f64>, Array1<f64>), Box<dyn Error>> {
+pub fn read_linreg_csv(file_path: &str) -> Result<(Array2<f64>, Array1<f64>), Box<dyn Error>> {
     // Open the file
     let file = File::open(file_path)?;
 

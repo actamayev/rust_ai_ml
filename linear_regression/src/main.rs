@@ -1,8 +1,8 @@
 use std::error::Error;
 use ndarray::{Array2, Array1};
 
-mod read_csv;
 mod error_metrics;
+mod read_linreg_csv;
 mod train_test_split;
 mod lin_alg_operations;
 
@@ -18,7 +18,7 @@ fn linear_regression(x: &Array2<f64>, y: &Array1<f64>) -> Result<Array1<f64>, Bo
 fn main() -> Result<(), Box<dyn Error>> {
     let file_path = "data/Hours_of_Study_vs_Exam_Score_Dataset.csv";
 
-    let (x, y) = read_csv::read_csv(file_path)?;
+    let (x, y) = read_linreg_csv::read_linreg_csv(file_path)?;
 
     let (x_train, y_train, x_test, y_test) = train_test_split::train_test_split(&x, &y, 0.8);
 
