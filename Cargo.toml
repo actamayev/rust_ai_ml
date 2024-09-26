@@ -1,5 +1,5 @@
 [workspace]
-members = [
-    "linear_regression",
+members = [ "knn",
+    "linear_regression", "polynomial_regression",
     # Add more subfolders here
 ]
