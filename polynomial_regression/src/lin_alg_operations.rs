@@ -8,7 +8,7 @@ pub fn invert_matrix(matrix: &Array2<f64>, size: usize) -> Result<Array2<f64>, B
         return Err("Matrix must be a square.".into());
     }
 
-    // Convert ndarray::Array2 to nalgebra::MatrixN (9x9 matrix)
+    // Convert ndarray::Array2 to nalgebra::MatrixN
     let nalgebra_matrix = OMatrix::<f64, Dyn, Dyn>::from_row_slice(
         size,
         size,
