@@ -45,18 +45,12 @@ fn cycle_through_housing_data(mut total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<
 }
 
 fn find_distance(focus_house_data: &[f32], comparison_house_data: &[f32]) -> f32 {
-    let sq_footage_difference = focus_house_data[0] - comparison_house_data[0];
-    let num_bedrooms_difference = focus_house_data[1] - comparison_house_data[1];
-    let house_age_difference = focus_house_data[2] - comparison_house_data[2];
-    let location_rating_difference = focus_house_data[3] - comparison_house_data[3];
-
-    let sum_of_squares_difference =
-        sq_footage_difference.powi(2) +
-        num_bedrooms_difference.powi(2) +
-        house_age_difference.powi(2) +
-        location_rating_difference.powi(2);
-
-    sum_of_squares_difference.sqrt()
+    focus_house_data
+        .iter()
+        .zip(comparison_house_data.iter())
+        .map(|(a, b)| (a - b).powi(2))
+        .sum::<f32>()
+        .sqrt()
 }
 
 fn extract_last_two_columns(new_parsed_data: &[Vec<f32>]) -> (Array1<f32>, Array1<f32>) {
