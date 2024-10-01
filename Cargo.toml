@@ -1,6 +1,6 @@
 [workspace]
-members = [ "knn",
-    "linear_regression", "polynomial_regression",
+members = [ "ff_nn", "knn",
+    "linear_regression", "logistic_regression", "polynomial_regression", "random_forest", "svm",
     # Add more subfolders here
 ]
 resolver = "2"
