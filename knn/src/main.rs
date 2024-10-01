@@ -5,9 +5,8 @@ mod utils;
 mod read_knn_csv;
 mod error_metrics;
 
-fn cycle_through_housing_data(mut total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>> {
+fn cycle_through_housing_data(k: usize, mut total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>> {
     let cloned_total_housing_data = total_housing_data.clone();
-    let k = 100;
 
     for (index, record) in total_housing_data.iter_mut().enumerate() {
         // Create spliced data from the cloned data instead of the original
@@ -74,14 +73,17 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let parsed_housing_data = read_knn_csv::read_knn_csv(file_path)?;
 
-    let new_parsed_data = cycle_through_housing_data(parsed_housing_data);
-
-    let (y_true, y_pred) = extract_last_two_columns(&new_parsed_data);
-    let mse = error_metrics::root_mean_squared_error(&y_true, &y_pred);
-    let r2 = error_metrics::r2_score(&y_true, &y_pred);
-
-    println!("Mean Squared Error (test): {:?}", mse);
-    println!("R² Score (test): {:?}", r2);
+    for k in 2..10 {
+        let new_parsed_data = cycle_through_housing_data(k, parsed_housing_data.clone());  // Clone on each iteration
+        
+        let (y_true, y_pred) = extract_last_two_columns(&new_parsed_data);
+        let mse = error_metrics::root_mean_squared_error(&y_true, &y_pred);
+        let r2 = error_metrics::r2_score(&y_true, &y_pred);
+        println!("k {:?}", k);
+        println!("Mean Squared Error (test): {:?}", mse);
+        println!("R² Score (test): {:?}", r2);
+        println!("-----------------------");
+    }
 
     Ok(())
 }
