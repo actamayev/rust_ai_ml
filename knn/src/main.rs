@@ -81,9 +81,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let new_parsed_data = cycle_through_housing_data(parsed_housing_data);
 
-    // pass the parsed housing data into a function.
-    // that function will iterate over each record and create a prediction for the housing price (adding a )
-    // Evaluate the model using error metrics
     let (y_true, y_pred) = extract_last_two_columns(&new_parsed_data);
     let mse = error_metrics::root_mean_squared_error(&y_true, &y_pred);
     let r2 = error_metrics::r2_score(&y_true, &y_pred);
