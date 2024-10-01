@@ -57,7 +57,7 @@ fn extract_last_two_columns(new_parsed_data: &[Vec<f32>]) -> (Array1<f32>, Array
     let last_column: Vec<f32> = new_parsed_data.iter()
         .map(|row| row[row.len() - 1])
         .collect();
-    
+
     let second_to_last_column: Vec<f32> = new_parsed_data.iter()
         .map(|row| row[row.len() - 2])
         .collect();
