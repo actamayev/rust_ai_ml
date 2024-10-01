@@ -4,6 +4,7 @@ use std::error::Error;
 mod utils;
 mod read_knn_csv;
 mod error_metrics;
+mod data_normalization;
 
 fn cycle_through_housing_data(k: usize, mut total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>> {
     let cloned_total_housing_data = total_housing_data.clone();
@@ -73,15 +74,19 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let parsed_housing_data = read_knn_csv::read_knn_csv(file_path)?;
 
+    let normalized_data = data_normalization::min_max_normalize(&parsed_housing_data);
+
+    // let normalized_data = data_normalization::z_score_standardize(&parsed_housing_data);
+
     for k in 2..10 {
-        let new_parsed_data = cycle_through_housing_data(k, parsed_housing_data.clone());  // Clone on each iteration
+        let new_parsed_data = cycle_through_housing_data(k, normalized_data.clone());  // Clone on each iteration
         
         let (y_true, y_pred) = extract_last_two_columns(&new_parsed_data);
         let mse = error_metrics::root_mean_squared_error(&y_true, &y_pred);
         let r2 = error_metrics::r2_score(&y_true, &y_pred);
         println!("k {:?}", k);
-        println!("Mean Squared Error (test): {:?}", mse);
-        println!("R² Score (test): {:?}", r2);
+        println!("Mean Squared Error: {:?}", mse);
+        println!("R² Score: {:?}", r2);
         println!("-----------------------");
     }
 
