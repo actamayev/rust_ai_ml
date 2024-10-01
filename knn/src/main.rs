@@ -5,13 +5,15 @@ mod utils;
 mod read_knn_csv;
 mod error_metrics;
 
-fn cycle_through_housing_data(total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>> {
-    let mut cloned_total_housing_data = total_housing_data.clone();
+fn cycle_through_housing_data(mut total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>> {
+    let cloned_total_housing_data = total_housing_data.clone();
     let k = 100;
 
-    for index in 0..cloned_total_housing_data.len() {
-        let mut spliced_housing_data = total_housing_data.clone();
-        spliced_housing_data.remove(index);
+    for (index, record) in total_housing_data.iter_mut().enumerate() {
+        // Create spliced data from the cloned data instead of the original
+        let mut spliced_housing_data = cloned_total_housing_data.clone();
+        spliced_housing_data.remove(index); // Remove the current record
+
         let mut knn_price_array = Vec::new();
 
         for record_checking_against in spliced_housing_data {
@@ -22,7 +24,7 @@ fn cycle_through_housing_data(total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>
                     println!("No price found for the record.");
                 }
             } else {
-                let distance_to_other_house = find_distance(&cloned_total_housing_data[index], &record_checking_against);
+                let distance_to_other_house = find_distance(record, &record_checking_against);
                 if let Some(&least_value_in_existing_array) = knn_price_array.iter().min_by(|a, b| a.partial_cmp(b).unwrap()) {
                     if distance_to_other_house < least_value_in_existing_array {
                         if let Some(position) = knn_price_array.iter().position(|&x| x == least_value_in_existing_array) {
@@ -32,15 +34,14 @@ fn cycle_through_housing_data(total_housing_data: Vec<Vec<f32>>) -> Vec<Vec<f32>
                     }
                 }
             }
-            continue
         }
 
+        // Calculate the average price and push it into the record
         let average_nearest_house_price = utils::average(&knn_price_array);
-
-        cloned_total_housing_data[index].push(average_nearest_house_price);
+        record.push(average_nearest_house_price); // Use mutable reference to modify the record
     }
 
-    cloned_total_housing_data
+    total_housing_data
 }
 
 fn find_distance(focus_house_data: &[f32], comparison_house_data: &[f32]) -> f32 {
