@@ -4,3 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+csv = "*"  # For reading CSV files
+ndarray = "*"  # For matrix and array operations
+rand = "*"  # Or the latest version
+nalgebra = "*"
